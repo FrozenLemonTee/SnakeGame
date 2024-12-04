@@ -11,6 +11,7 @@ public:
     void delay();
     void end();
     void Draw_Arena(Arena a);
+    void Draw_Snake(Snake s);
 };
 
 

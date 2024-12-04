@@ -22,7 +22,8 @@ void Draw::end()
 void Draw::Draw_Arena(Arena a)
 {
     erase();
-
+    move(0,0);
+    clrtoeol();
     for (int row = 0; row != HEIGHT; ++row)
     {
         for (int col = 0; col != WIDTH; ++col)
@@ -45,4 +46,12 @@ void Draw::delay()
 {
     refresh();
     napms(FRAMETIME);
+}
+
+void Draw::Draw_Snake(Snake s)
+{
+    for(SnakeNode node :s.body)
+    {
+        mvprintw(node.row, node.col, "@");
+    }
 }

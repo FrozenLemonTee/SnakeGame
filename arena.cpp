@@ -1,6 +1,7 @@
 #include <vector>
 #include "Arena.hpp"
 #include "curses.h"
+#include "data.hpp"
 
 
 Arena::Arena(int w, int h): width(w), height(h), matrix(h, std::vector<int>(w,0)) {}
@@ -21,12 +22,12 @@ void SnakeNode::copyNode(SnakeNode next)
 
 SnakeNode SnakeNode::moveUp()
 {
-    return SnakeNode(row+1, col);
+    return SnakeNode(row-1, col);
 }
 
 SnakeNode SnakeNode::moveDown()
 {
-    return SnakeNode(row-1, col);
+    return SnakeNode(row+1, col);
 }
 
 SnakeNode SnakeNode::moveLeft()
@@ -58,35 +59,43 @@ int Snake::size()
 
 void Snake::update()
 {
-    switch(orientation)
+    if(orientation == 1)
     {
-        case 1:
-            body.push_front(head().moveUp());
-        case 2:
-            body.push_front(head().moveRight());
-        case 3:
-            body.push_front(head().moveDown());
-        case 4:
-            body.push_front(head().moveLeft());
-        default:
-            return;
+        body.push_front(head().moveUp());
+    }else if(orientation == 2)
+    {
+        body.push_front(head().moveRight());
+    }else if(orientation == 3)
+    {
+        body.push_front(head().moveDown());
+    }else if(orientation == 4)
+    {
+        body.push_front(head().moveLeft());
     }
     body.pop_back();
 }
 
-void Snake::listen()
+void Snake::listen(char ch)
 {
-    char ch = getchar();
-    switch(ch)
+    if(ch == 's')
     {
-        case 'w':
-            orientation = 1;
-        case 'd':
-            orientation = 2;
-        case 's':
-            orientation = 3;
-        case 'a':
-            orientation = 4;
+        orientation = 3;
+    }else if(ch == 'w')
+    {
+        orientation = 1;
+    }else if(ch == 'd')
+    {
+        orientation = 2;
+    }else if(ch == 'a')
+    {
+        orientation = 4;
+    }else
+    {
+        return;
     }
 
+}
+
+void Snake::increase()
+{
 }

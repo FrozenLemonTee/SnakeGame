@@ -27,14 +27,14 @@ public:
 };
 
 class Snake{
-private:
-    int orientation;
 public:
+    int orientation;
     Snake(int row, int col, int ori);
     std::list<SnakeNode> body;
     SnakeNode head();
     void update();
-    void listen();
+    void increase();
+    void listen(char ch);
     int size();
 };
 
