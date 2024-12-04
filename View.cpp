@@ -6,7 +6,12 @@
 void Draw::start()
 {
     initscr();
+    cbreak();
+    noecho();
     curs_set(0);
+    keypad(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
+
 }
 
 void Draw::end()
@@ -22,12 +27,22 @@ void Draw::Draw_Arena(Arena a)
     {
         for (int col = 0; col != WIDTH; ++col)
         {
-            printw("-");
+            if(a.mat(row,col) == 0)
+            {
+                printw("-");
+            }
+            else if (a.mat(row, col) == 1)
+            {
+                printw("#");
+            }
         }
 
         printw("\n");
     }
+}
 
+void Draw::delay()
+{
     refresh();
     napms(FRAMETIME);
 }

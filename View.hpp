@@ -8,6 +8,7 @@ class Draw{
 
 public:
     void start();
+    void delay();
     void end();
     void Draw_Arena(Arena a);
 };

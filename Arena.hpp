@@ -2,6 +2,7 @@
 #define ARENA_H
 
 #include <vector>
+#include <list>
 
 class Arena{
 private:
@@ -12,5 +13,32 @@ public:
     Arena(int w, int h);
     int& mat(int row, int col);
 };
+
+class SnakeNode{
+public:
+    SnakeNode(int row, int col);
+    int row;
+    int col;
+    void copyNode(SnakeNode next);
+    SnakeNode moveUp();
+    SnakeNode moveDown();
+    SnakeNode moveLeft();
+    SnakeNode moveRight();
+};
+
+class Snake{
+private:
+    int orientation;
+public:
+    Snake(int row, int col, int ori);
+    std::list<SnakeNode> body;
+    SnakeNode head();
+    void update();
+    void listen();
+    int size();
+};
+
+
+
 
 #endif

@@ -8,10 +8,12 @@ int main()
 {
     Arena arena = Arena(WIDTH, HEIGHT);
     Draw draw = Draw();
+
     draw.start();
     while(true)
     {
         draw.Draw_Arena(arena);
+        draw.delay();
     }
     draw.end();
 }
