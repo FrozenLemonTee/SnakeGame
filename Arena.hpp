@@ -10,7 +10,6 @@ private:
     std::vector<std::vector<int>> matrix;
 public:
     Arena(int w, int h);
-
     int& mat(int row, int col);
 };
 
