@@ -2,9 +2,17 @@
 #include "View.hpp"
 #include "data.hpp"
 #include <string>
+#include <locale.h>
+#include <windows.h>
+#include <wchar.h>
+
 
 void Draw::start()
 {
+    setlocale(LC_ALL, "");
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+
     initscr();
     cbreak();
     noecho();
@@ -23,22 +31,17 @@ void Draw::Draw_Arena(Arena a)
 {
     erase();
     move(0,0);
-    clrtoeol();
-    for (int row = 0; row != HEIGHT; ++row)
+    //clrtoeol();
+    for(int col = 0; col != WIDTH + 1; ++col)
     {
-        for (int col = 0; col != WIDTH; ++col)
-        {
-            if(a.mat(row,col) == 0)
-            {
-                printw("-");
-            }
-            else if (a.mat(row, col) == 1)
-            {
-                printw("#");
-            }
-        }
+        mvaddch(0,col,'-');
+        mvaddch(HEIGHT,col,'-');
+    }
 
-        printw("\n");
+    for(int row = 1; row != HEIGHT; ++row)
+    {
+        mvaddch(row,0,'[');
+        mvaddch(row,WIDTH, ']');
     }
 }
 
@@ -52,6 +55,8 @@ void Draw::Draw_Snake(Snake s)
 {
     for(SnakeNode node :s.body)
     {
-        mvprintw(node.row, node.col, "@");
+        mvaddch(node.row, node.col, 's');
     }
+
+    mvaddch(s.head().row, s.head().col, 'S');
 }

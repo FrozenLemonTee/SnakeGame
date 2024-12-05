@@ -42,7 +42,7 @@ SnakeNode SnakeNode::moveRight()
 
 
 
-Snake::Snake(int row, int col, int ori): orientation{ori}
+Snake::Snake(int row, int col, int ori): orientation{ori}, INCREASE(0)
 {
     body.push_front(SnakeNode(row, col));
 }
@@ -72,21 +72,28 @@ void Snake::update()
     {
         body.push_front(head().moveLeft());
     }
+
+    if(INCREASE > 0)
+    {
+        INCREASE -= 1;
+        return;
+    }
+
     body.pop_back();
 }
 
 void Snake::listen(char ch)
 {
-    if(ch == 's')
+    if(ch == 's' || ch == KEY_DOWN)
     {
         orientation = 3;
-    }else if(ch == 'w')
+    }else if(ch == 'w' || ch == KEY_UP)
     {
         orientation = 1;
-    }else if(ch == 'd')
+    }else if(ch == 'd' || ch == KEY_RIGHT)
     {
         orientation = 2;
-    }else if(ch == 'a')
+    }else if(ch == 'a' || ch == KEY_LEFT)
     {
         orientation = 4;
     }else
@@ -96,6 +103,16 @@ void Snake::listen(char ch)
 
 }
 
-void Snake::increase()
+void Snake::increase(int num)
 {
+    INCREASE += num;
+}
+
+bool Snake::border()
+{
+    if(head().row <= 0 && orientation == 1)
+    {
+        return true;
+    }
+    return false;
 }

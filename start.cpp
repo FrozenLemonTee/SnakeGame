@@ -10,17 +10,26 @@ void test()
     Draw draw = Draw();
     Snake snake = Snake(10,10,2);
 
-    snake.body.push_back(SnakeNode(10,11));
-    snake.body.push_back(SnakeNode(10,12));
-    snake.body.push_back(SnakeNode(10,13));
-    snake.body.push_back(SnakeNode(10,14));
-
+    snake.increase(10);
     draw.start();
     while(true)
     {
         char ch = getch();
-        snake.listen(ch);
-        snake.update();
+        if(ch == 'q')
+        {
+            break;
+        }else
+        {
+            snake.listen(ch);
+        }
+
+        if(snake.border())
+        {
+            break;
+        }else
+        {
+            snake.update();
+        }
         draw.Draw_Arena(arena);
         draw.Draw_Snake(snake);
         draw.delay();
@@ -35,6 +44,7 @@ void test_input()
     initscr();
     cbreak();
     noecho();
+    keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
     curs_set(0);
 
@@ -65,5 +75,6 @@ void monitor(Snake snake)
 
 int main()
 {
+    //test_input();
     test();
 }

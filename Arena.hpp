@@ -33,7 +33,9 @@ public:
     std::list<SnakeNode> body;
     SnakeNode head();
     void update();
-    void increase();
+    void increase(int num);
+    bool border();
+    int INCREASE;
     void listen(char ch);
     int size();
 };
