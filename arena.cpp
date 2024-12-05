@@ -11,15 +11,40 @@ int& Arena::mat(int row, int col)
     return matrix[row][col];
 }
 
+void Arena::insertFood(int row, int col)
+{
+    if(matrix[row][col] == 0)
+    {
+        matrix[row][col] = 1;
+    }else
+    {
+        return;
+    }
+}
+
+void Arena::deleteFood(int row, int col)
+{
+    if(matrix[row][col] == 1)
+    {
+        matrix[row][col] = 0;
+    }else
+    {
+        return;
+    }
+}
+
 
 SnakeNode::SnakeNode(int row, int col): row{row}, col{col} {}
 
 void SnakeNode::copyNode(SnakeNode next)
 {
+    //You can also define the operator= to implement this function
     row = next.row;
     col = next.col;
 }
 
+
+//These function returns a new node in different orientation
 SnakeNode SnakeNode::moveUp()
 {
     return SnakeNode(row-1, col);
@@ -59,6 +84,13 @@ int Snake::size()
 
 void Snake::update()
 {
+    //Tips:
+    //How do I move the Snake?
+    //When snake moves, I add a new node at the front
+    //And then remove the last node
+    //If I want to increase the length of our node
+    //I stop "remove the last node" for that single time
+
     if(orientation == 1)
     {
         body.push_front(head().moveUp());
@@ -75,15 +107,18 @@ void Snake::update()
 
     if(INCREASE > 0)
     {
+        //If I have INCREASE, I don't wanna pop back
         INCREASE -= 1;
         return;
     }
 
+    //I don't have INCREASE, I have to pop back to keep my length
     body.pop_back();
 }
 
 void Snake::listen(char ch)
 {
+    //Don't know why KEY can not be detected, you better use wasd
     if(ch == 's' || ch == KEY_DOWN)
     {
         orientation = 3;
@@ -111,6 +146,15 @@ void Snake::increase(int num)
 bool Snake::border()
 {
     if(head().row <= 0 && orientation == 1)
+    {
+        return true;
+    }else if(head().row >= HEIGHT && orientation == 3)
+    {
+        return true;
+    }else if(head().col >= WIDTH && orientation == 2)
+    {
+        return true;
+    }else if(head().col <= 0 && orientation == 4)
     {
         return true;
     }
