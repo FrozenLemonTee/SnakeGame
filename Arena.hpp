@@ -44,7 +44,7 @@ public:
     //Function that returns the head node
     SnakeNode head();
     //Function that moves the snake
-    void update();
+    bool update();
     //Function that increases the length of the snake
     void increase(int num);
     //Function that checks whether touching the border

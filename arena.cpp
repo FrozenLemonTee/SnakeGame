@@ -82,7 +82,7 @@ int Snake::size()
     return body.size();
 }
 
-void Snake::update()
+bool Snake::update()
 {
     //Tips:
     //How do I move the Snake?
@@ -108,12 +108,11 @@ void Snake::update()
     if(INCREASE > 0)
     {
         //If I have INCREASE, I don't wanna pop back
-        INCREASE -= 1;
-        return;
+        return false;
+    }else
+    {
+        return true;
     }
-
-    //I don't have INCREASE, I have to pop back to keep my length
-    body.pop_back();
 }
 
 void Snake::listen(char ch)

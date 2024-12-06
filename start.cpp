@@ -11,18 +11,17 @@ private:
     Arena arena;
     Draw draw;
     Snake snake;
+    RANDOM random;
 public:
     bool RUN;
-    Game(int width, int height, int row, int col, int ori):arena(Arena(width, height)), draw(Draw()),snake(Snake(row,col,ori)), RUN(true) {}
-
-    //Game_monitor() and Key_test() are only for test
-    void Game_monitor()
+    bool TEST;
+    Game(int width, int height, int row, int col, int ori):arena(Arena(width, height)), draw(Draw()),snake(Snake(row,col,ori)), random(RANDOM()), RUN(false), TEST(false) 
     {
-        move(0,0);
-        clrtoeol();
-        printw("Orientation: %i \n", snake.orientation);
+        RUN = RUN_MODE;
+        TEST = TEST_MODE;
     }
 
+    //Ignore these tests
     void Key_test()
     {
         int ch;
@@ -50,22 +49,52 @@ public:
         }
     }
 
+    void Data_test()
+    {
+        move(0,0);
+        erase();
+        mvprintw(1,1,"Random value: %i", random.RAND(1,10));
+        refresh();
+        napms(100);
+    }
+
+    void Game_Monitor()
+    {
+        mvprintw(5,5,"Length: %i", snake.size());
+    }
+
+    void Food_Update()
+    {
+        int row;
+        int col;
+        do
+        {
+            row = random.ROW(1,-1);
+            col = random.COL(1,-1);
+        } while (arena.mat(row, col) != 0);
+        
+        arena.insertFood(row, col);
+        
+    }
 
     //Set up value for test
-    void Game_Setup(int len)
+    void Game_Setup(int len, int num)
     {
+        //Initial length
         snake.increase(len);
-        arena.insertFood(20,20);
-        arena.insertFood(24,27);
-        arena.insertFood(29,25);
-        arena.insertFood(24,29);
-        arena.insertFood(27,25);
+
+        //Initial number of food
+        for(int i = 0; i != num; ++i)
+        {
+            Food_Update();
+        }
     }
 
     //Initialize the terminal environment
     void Game_start()
     {
         draw.start();
+        draw.start_monitor();
     }
 
     //listen to keyboard input
@@ -82,16 +111,33 @@ public:
         }
     }
 
-    //Update the interaction between Snake and other objects
-    void Interaction_update()
+    void Snake_update()
     {
-        //Update food
+        bool pop = snake.update();
+
         if(arena.mat(snake.head().row, snake.head().col) == 1)
         {
             arena.mat(snake.head().row, snake.head().col) = 0;
             snake.increase(1);
+            Food_Update();
         }
+
+        for(SnakeNode node:snake.body)
+        {
+            arena.mat(node.row, node.col) = -1;
+        }
+
+        if(pop)
+        {
+            arena.mat(snake.body.back().row, snake.body.back().col) = 0;
+            snake.body.pop_back();
+        }else
+        {
+            snake.INCREASE -= 1;
+        }
+
     }
+
 
     //Compose evert update together and check wheter Game is ended
     void Game_update()
@@ -102,8 +148,7 @@ public:
             return;
         }
 
-        Interaction_update();
-        snake.update();
+        Snake_update();
     }
 
     //Display everything(View)
@@ -111,6 +156,7 @@ public:
     {
         draw.Draw_Arena(arena);
         draw.Draw_Snake(snake);
+        draw.Draw_Monitor(snake);
         draw.delay();
     }
 
@@ -124,7 +170,7 @@ public:
 int main()
 {
     Game game = Game(WIDTH, HEIGHT, SNAKE_START_ROW, SNAKE_START_COL, SNAKE_START_ORI);
-    game.Game_Setup(SNAKE_START_LENGTH);
+    game.Game_Setup(SNAKE_START_LENGTH, FOOD_NUM);
     game.Game_start();
     while(game.RUN)
     {
@@ -132,5 +178,10 @@ int main()
         game.Game_update();
         game.Game_display();
     }
+    while(game.TEST)
+    {  
+        game.Data_test();
+    }
     game.Game_end();
+    return 0;
 }
