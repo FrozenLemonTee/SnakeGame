@@ -65,8 +65,8 @@ public:
 
     void Food_Update()
     {
-        int row;
-        int col;
+        int row = 0;
+        int col = 0;
         do
         {
             row = random.ROW(1,-1);
@@ -77,16 +77,41 @@ public:
         
     }
 
+    void Obs_Update()
+    {
+        int row = 0;
+        int col = 0;
+        do
+        {
+            row = random.ROW(5, -5);
+            col = random.COL(15,-15);
+        } while (arena.mat(row,col) != 0
+                || arena.mat(row+1,col) != 0
+                || arena.mat(row,col+1) != 0
+                || arena.mat(row+1,col+1) != 0);
+
+        arena.insertObs(row,col);
+        arena.insertObs(row+1,col);
+        arena.insertObs(row,col+1);
+        arena.insertObs(row+1,col+1);
+        
+    }
+
     //Set up value for test
-    void Game_Setup(int len, int num)
+    void Game_Setup(int len, int Food_num, int Obs_num)
     {
         //Initial length
         snake.increase(len);
 
         //Initial number of food
-        for(int i = 0; i != num; ++i)
+        for(int i = 0; i != Food_num; ++i)
         {
             Food_Update();
+        }
+
+        for(int i = 0; i != Obs_num; ++i)
+        {
+            Obs_Update();
         }
     }
 
@@ -98,30 +123,70 @@ public:
     }
 
     //listen to keyboard input
-    void Game_listen()
+    void Game_listen(bool bl)
     {
         char ch = getch();
 
         if(ch == 'q')
         {
             RUN = false;
+            return;
+        }
+    
+        if(bl)
+        {
+            snake.listen_All_Dir(ch);
         }else
         {
             snake.listen(ch);
         }
+    
     }
+    
 
     void Snake_update()
     {
+        //push front the new head
         bool pop = snake.update();
 
+
+
+
+        //manage interaction
         if(arena.mat(snake.head().row, snake.head().col) == 1)
         {
             arena.mat(snake.head().row, snake.head().col) = 0;
             snake.increase(1);
             Food_Update();
-        }
+        }else if((arena.mat(snake.head().row, snake.head().col) == -2))
+        {
+            RUN = false;
+            return;
+        }else if((arena.mat(snake.head().row, snake.head().col) == -1))
+        {
+            //check whether it is other's body
+            bool selfBody = false;
+            for(SnakeNode node: snake.body)
+            {
+                if(snake.head().row == node.row
+                && snake.head().col == node.col)
+                {
+                    selfBody = true;
+                }
+            }
+            if(selfBody == false)
+            {
+                RUN = false;
+                return;
+            }else
+            {
+                RUN = true;
+            }
+        } 
 
+
+
+        //update body on chess
         for(SnakeNode node:snake.body)
         {
             arena.mat(node.row, node.col) = -1;
@@ -170,11 +235,11 @@ public:
 int main()
 {
     Game game = Game(WIDTH, HEIGHT, SNAKE_START_ROW, SNAKE_START_COL, SNAKE_START_ORI);
-    game.Game_Setup(SNAKE_START_LENGTH, FOOD_NUM);
+    game.Game_Setup(SNAKE_START_LENGTH, FOOD_NUM, OBS_NUM);
     game.Game_start();
     while(game.RUN)
     {
-        game.Game_listen();
+        game.Game_listen(ALL_DIR_MODE);
         game.Game_update();
         game.Game_display();
     }

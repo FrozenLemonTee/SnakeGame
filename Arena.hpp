@@ -17,6 +17,7 @@ public:
     int& mat(int row, int col);
     void insertFood(int row, int col);
     void deleteFood(int row, int col);
+    void insertObs(int row, int col);
 };
 
 class SnakeNode{
@@ -53,6 +54,7 @@ public:
     int INCREASE;
     //Function that processes the Keyboard input
     void listen(char ch);
+    void listen_All_Dir(char ch);
     //Function taht returns the length of our Snake
     int size();
 };

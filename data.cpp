@@ -41,7 +41,9 @@ const int SNAKE_START_COL = 10;
 const int SNAKE_START_ORI = 2;
 const int SNAKE_START_LENGTH = 2;
 
-const int FOOD_NUM = 5;
+const int FOOD_NUM = 20;
+const int OBS_NUM = 20;
 
 const bool TEST_MODE = false;
 const bool RUN_MODE = true;
+const bool ALL_DIR_MODE = false;

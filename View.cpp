@@ -51,6 +51,9 @@ void Draw::Draw_Arena(Arena a)
             if(a.mat(row,col) == 1)
             {
                 mvaddch(row, col, '$');
+            }else if(a.mat(row,col) == -2)
+            {
+                mvaddch(row, col, 'X');
             }
         }
     }

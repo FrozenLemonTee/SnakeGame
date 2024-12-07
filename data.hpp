@@ -27,10 +27,12 @@ extern const int SNAKE_START_ORI;
 extern const int SNAKE_START_LENGTH;
 
 extern const int FOOD_NUM;
+extern const int OBS_NUM;
 
 
 extern const bool TEST_MODE;
 extern const bool RUN_MODE;
+extern const bool ALL_DIR_MODE;
 
 
 

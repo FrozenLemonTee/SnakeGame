@@ -33,6 +33,17 @@ void Arena::deleteFood(int row, int col)
     }
 }
 
+void Arena::insertObs(int row, int col)
+{
+    if(matrix[row][col] == 0)
+    {
+        matrix[row][col] = -2;
+    }else
+    {
+        return;
+    }
+}
+
 
 SnakeNode::SnakeNode(int row, int col): row{row}, col{col} {}
 
@@ -118,23 +129,42 @@ bool Snake::update()
 void Snake::listen(char ch)
 {
     //Don't know why KEY can not be detected, you better use wasd
-    if(ch == 's' || ch == KEY_DOWN)
+    if((ch == 's' || ch == KEY_DOWN) && orientation != 1)
     {
         orientation = 3;
-    }else if(ch == 'w' || ch == KEY_UP)
+    }else if((ch == 'w' || ch == KEY_UP) && orientation != 3)
     {
         orientation = 1;
-    }else if(ch == 'd' || ch == KEY_RIGHT)
+    }else if((ch == 'd' || ch == KEY_RIGHT) && orientation != 4)
     {
         orientation = 2;
-    }else if(ch == 'a' || ch == KEY_LEFT)
+    }else if((ch == 'a' || ch == KEY_LEFT) && orientation != 2)
     {
         orientation = 4;
     }else
     {
         return;
     }
+}
 
+void Snake::listen_All_Dir(char ch)
+{
+    if((ch == 's' || ch == KEY_DOWN))
+    {
+        orientation = 3;
+    }else if((ch == 'w' || ch == KEY_UP))
+    {
+        orientation = 1;
+    }else if((ch == 'd' || ch == KEY_RIGHT))
+    {
+        orientation = 2;
+    }else if((ch == 'a' || ch == KEY_LEFT))
+    {
+        orientation = 4;
+    }else
+    {
+        return;
+    }
 }
 
 void Snake::increase(int num)
