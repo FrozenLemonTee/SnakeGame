@@ -34,55 +34,55 @@ Simple explanation of the code
 
 Snake is composed by a double-linked list of SnakeNode
 
-  class SnakeNode{
-  public:
-    SnakeNode(int row, int col): row{row}, col{col} {}
-    int row;
-    int col;
-  }
+    class SnakeNode{
+    public:
+      SnakeNode(int row, int col): row{row}, col{col} {}
+      int row;
+      int col;
+    }
 
 double-linked list can push_front and pop_back and that's why I used it instead of vector
 
-  bool Snake::update(){
-    if(orientation == 1){
-        body.push_front(head().moveUp());
-    }else if(orientation == 2){
-        body.push_front(head().moveRight());
-    }else if(orientation == 3){
-        body.push_front(head().moveDown());
-    }else if(orientation == 4){
-        body.push_front(head().moveLeft());
+    bool Snake::update(){
+      if(orientation == 1){
+          body.push_front(head().moveUp());
+      }else if(orientation == 2){
+          body.push_front(head().moveRight());
+      }else if(orientation == 3){
+          body.push_front(head().moveDown());
+      }else if(orientation == 4){
+          body.push_front(head().moveLeft());
+      }
     }
-  }
-  //Holy shit it is so tiring to write real code
-  //I am gonna use psuedocode!!
+    //Holy shit it is so tiring to write real code
+    //I am gonna use psuedocode!!
 
 When moving, push front the new Node and pop back the last Node.
 
 If the snake need to be longer, just don't pop back the last Node for this time.
 
-  if(Get_longer)
-  {
-    do not pop back;
-  }else
-  {
-    pop back;
-  }
+    if(Get_longer)
+    {
+      do not pop back;
+    }else
+    {
+      pop back;
+    }
 
 The information of the snake should be stored in to the matrix of arena
 
-  for(every SnakeNode in the list)
-  {
-    set their position to -1
-  }
-  set the postion of the last node to be initial value
+    for(every SnakeNode in the list)
+    {
+      set their position to -1
+    }
+    set the postion of the last node to be initial value
 
 Also you need to draw the snake
 
-  for(every SnakeNode in the list)
-  {
-    draw draw draw!! hahaha
-  }
+    for(every SnakeNode in the list)
+    {
+      draw draw draw!! hahaha
+    }
 
 ## Arena
 

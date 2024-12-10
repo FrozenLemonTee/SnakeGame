@@ -104,7 +104,7 @@ void Draw::Draw_Monitor(Snake s)
     }
     mvwprintw(monitor,9,2,"Length: %i", s.size());
     mvwprintw(monitor,1,2,"Command of Duty: Snake Ops");
-    mvwprintw(monitor,3,2,"v0.4 @Zhou");
+    mvwprintw(monitor,3,2,"v0.5 @Zhou");
     mvwprintw(monitor,7,2,"Join me for development!!!");
     mvwprintw(monitor,5,2,"Based on PDcurses");
 }
