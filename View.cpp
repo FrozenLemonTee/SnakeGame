@@ -2,13 +2,13 @@
 #include "View.hpp"
 #include "data.hpp"
 #include <string>
-#include <locale.h>
+#include <clocale>
 #include <windows.h>
-#include <wchar.h>
+#include <cwchar>
 
 void Draw::start()
 {
-    //Configure UTF8 for windows terminal
+    //Configure UTF8 for Windows terminal
     setlocale(LC_ALL, "");
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
@@ -22,7 +22,7 @@ void Draw::start()
     nodelay(stdscr, TRUE); //Non block mode
 }
 
-void Draw::end()
+void Draw::end() const
 {
     endwin();
     delwin(monitor);
@@ -59,17 +59,17 @@ void Draw::Draw_Arena(Arena a)
     }
 }
 
-void Draw::delay()
+void Draw::delay() const
 {
     refresh();
     wrefresh(monitor);
     Sleep(FRAMETIME);
 }
 
-void Draw::Draw_Snake(Snake s)
+void Draw::Draw_Snake(const Snake& s)
 {
     //Draw body
-    for(SnakeNode node :s.body)
+    for(const SnakeNode node :s.body)
     {
         mvaddch(node.row, node.col, 's');
     }
@@ -83,7 +83,7 @@ void Draw::start_monitor()
     monitor = newwin(M_HEIGHT,M_WIDTH,0,WIDTH + 2);
 }
 
-void Draw::Draw_Monitor(Snake s)
+void Draw::Draw_Monitor(const Snake& s) const
 {
     werase(monitor);
     for(int row = 0; row != M_HEIGHT; ++row)

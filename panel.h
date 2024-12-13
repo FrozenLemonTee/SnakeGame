@@ -14,7 +14,7 @@ extern "C"
 
 typedef struct panelobs
 {
-    struct panelobs *above;
+    panelobs *above;
     struct panel *pan;
 } PANELOBS;
 
@@ -25,10 +25,10 @@ typedef struct panel
     int wendy;
     int wstartx;
     int wendx;
-    struct panel *below;
-    struct panel *above;
+    panel *below;
+    panel *above;
     const void *user;
-    struct panelobs *obscure;
+    panelobs *obscure;
 } PANEL;
 
 PDCEX  int     bottom_panel(PANEL *pan);

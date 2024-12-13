@@ -4,7 +4,6 @@
 #include <random>
 
 class RANDOM{
-private:
     std::random_device rd;
     std::mt19937 gen;
 public:

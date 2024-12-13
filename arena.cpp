@@ -4,50 +4,41 @@
 #include "data.hpp"
 
 
-Arena::Arena(int w, int h): width(w), height(h), matrix(h, std::vector<int>(w,0)) {}
+Arena::Arena(const int w, const int h): width(w), height(h), matrix(h, std::vector<int>(w,0)) {}
 
-int& Arena::mat(int row, int col)
+int& Arena::mat(const int row, const int col)
 {
     return matrix[row][col];
 }
 
-void Arena::insertFood(int row, int col)
+void Arena::insertFood(const int row, const int col)
 {
     if(matrix[row][col] == 0)
     {
         matrix[row][col] = 1;
-    }else
-    {
-        return;
     }
 }
 
-void Arena::deleteFood(int row, int col)
+void Arena::deleteFood(const int row, const int col)
 {
     if(matrix[row][col] == 1)
     {
         matrix[row][col] = 0;
-    }else
-    {
-        return;
     }
 }
 
-void Arena::insertObs(int row, int col)
+void Arena::insertObs(const int row, const int col)
 {
     if(matrix[row][col] == 0)
     {
         matrix[row][col] = -2;
-    }else
-    {
-        return;
     }
 }
 
 
-SnakeNode::SnakeNode(int row, int col): row{row}, col{col} {}
+SnakeNode::SnakeNode(const int row, const int col): row{row}, col{col} {}
 
-void SnakeNode::copyNode(SnakeNode next)
+void SnakeNode::copyNode(const SnakeNode next)
 {
     //You can also define the operator= to implement this function
     row = next.row;
@@ -56,41 +47,40 @@ void SnakeNode::copyNode(SnakeNode next)
 
 
 //These function returns a new node in different orientation
-SnakeNode SnakeNode::moveUp()
+SnakeNode SnakeNode::moveUp() const
 {
-    return SnakeNode(row-1, col);
+    return {row-1, col};
 }
 
-SnakeNode SnakeNode::moveDown()
+SnakeNode SnakeNode::moveDown() const
 {
-    return SnakeNode(row+1, col);
+    return {row+1, col};
 }
 
-SnakeNode SnakeNode::moveLeft()
+SnakeNode SnakeNode::moveLeft() const
 {
-    return SnakeNode(row, col-1);
+    return {row, col-1};
 }
 
-SnakeNode SnakeNode::moveRight()
+SnakeNode SnakeNode::moveRight() const
 {
-    return SnakeNode(row, col+1);
+    return {row, col+1};
 }
 
 
-
-Snake::Snake(int row, int col, int ori): orientation{ori}, INCREASE(0)
+Snake::Snake(const int row, const int col, const int ori): orientation{ori}, INCREASE(0)
 {
-    body.push_front(SnakeNode(row, col));
+    body.emplace_front(row, col);
 }
 
-SnakeNode Snake::head()
+SnakeNode Snake::head() const
 {
     return body.front();
 }
 
-int Snake::size()
+int Snake::size() const
 {
-    return body.size();
+    return body.size(); // converting type size_t(aka unsigned long long) to type int is not appropriate ^_^
 }
 
 bool Snake::update()
@@ -118,15 +108,13 @@ bool Snake::update()
 
     if(INCREASE > 0)
     {
-        //If I have INCREASE, I don't wanna pop back
+        //If I have INCREASE, I don't want to pop back
         return false;
-    }else
-    {
-        return true;
     }
+    return true;
 }
 
-void Snake::listen(char ch)
+void Snake::listen(const char ch)
 {
     //Don't know why KEY can not be detected, you better use wasd
     if((ch == 's' || ch == KEY_DOWN) && orientation != 1)
@@ -141,49 +129,46 @@ void Snake::listen(char ch)
     }else if((ch == 'a' || ch == KEY_LEFT) && orientation != 2)
     {
         orientation = 4;
-    }else
-    {
-        return;
     }
 }
 
-void Snake::listen_All_Dir(char ch)
+void Snake::listen_All_Dir(const char ch)
 {
-    if((ch == 's' || ch == KEY_DOWN))
+    if(ch == 's' || ch == KEY_DOWN)
     {
         orientation = 3;
-    }else if((ch == 'w' || ch == KEY_UP))
+    }else if(ch == 'w' || ch == KEY_UP)
     {
         orientation = 1;
-    }else if((ch == 'd' || ch == KEY_RIGHT))
+    }else if(ch == 'd' || ch == KEY_RIGHT)
     {
         orientation = 2;
-    }else if((ch == 'a' || ch == KEY_LEFT))
+    }else if(ch == 'a' || ch == KEY_LEFT)
     {
         orientation = 4;
-    }else
-    {
-        return;
     }
 }
 
-void Snake::increase(int num)
+void Snake::increase(const int num)
 {
     INCREASE += num;
 }
 
-bool Snake::border()
+bool Snake::border() const
 {
     if(head().row <= 0 && orientation == 1)
     {
         return true;
-    }else if(head().row >= HEIGHT && orientation == 3)
+    }
+    if(head().row >= HEIGHT && orientation == 3)
     {
         return true;
-    }else if(head().col >= WIDTH && orientation == 2)
+    }
+    if(head().col >= WIDTH && orientation == 2)
     {
         return true;
-    }else if(head().col <= 0 && orientation == 4)
+    }
+    if(head().col <= 0 && orientation == 4)
     {
         return true;
     }

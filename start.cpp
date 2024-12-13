@@ -7,7 +7,6 @@
 
 //Controller
 class Game{
-private:
     Arena arena;
     Draw draw;
     Snake snake;
@@ -15,17 +14,18 @@ private:
 public:
     bool RUN;
     bool TEST;
-    Game(int width, int height, int row, int col, int ori):arena(Arena(width, height)), draw(Draw()),snake(Snake(row,col,ori)), random(RANDOM()), RUN(false), TEST(false) 
+    Game(const int width, const int height,
+         const int row, const int col, const int ori)
+       : arena(Arena(width, height)), draw(Draw()),
+         snake(Snake(row,col,ori)), RUN(false), TEST(false)
     {
         RUN = RUN_MODE;
         TEST = TEST_MODE;
     }
 
     //Ignore these tests
-    void Key_test()
+    [[noreturn]] static void Key_test()
     {
-        int ch;
-
         initscr();
         cbreak();
         noecho();
@@ -36,7 +36,7 @@ public:
         while(true)
         {
             //flushinp();
-            ch = getch();
+            const int ch = getch();
             if(ch != -1)
             {
                 move(0,0);
@@ -98,7 +98,7 @@ public:
     }
 
     //Set up value for test
-    void Game_Setup(int len, int Food_num, int Obs_num)
+    void Game_Setup(const int len, const int Food_num, const int Obs_num)
     {
         //Initial length
         snake.increase(len);
@@ -123,9 +123,9 @@ public:
     }
 
     //listen to keyboard input
-    void Game_listen(bool bl)
+    void Game_listen(const bool bl)
     {
-        char ch = getch();
+        const char ch = getch();
 
         if(ch == 'q')
         {
@@ -147,10 +147,7 @@ public:
     void Snake_update()
     {
         //push front the new head
-        bool pop = snake.update();
-
-
-
+        const bool pop = snake.update();
 
         //manage interaction
         if(arena.mat(snake.head().row, snake.head().col) == 1)
@@ -166,7 +163,7 @@ public:
         {
             //check whether it is other's body
             bool selfBody = false;
-            for(SnakeNode node: snake.body)
+            for(const SnakeNode node: snake.body)
             {
                 if(snake.head().row == node.row
                 && snake.head().col == node.col)
@@ -178,16 +175,12 @@ public:
             {
                 RUN = false;
                 return;
-            }else
-            {
-                RUN = true;
             }
+            RUN = true;
         } 
 
-
-
         //update body on chess
-        for(SnakeNode node:snake.body)
+        for(const SnakeNode node:snake.body)
         {
             arena.mat(node.row, node.col) = -1;
         }
@@ -200,11 +193,10 @@ public:
         {
             snake.INCREASE -= 1;
         }
-
     }
 
 
-    //Compose evert update together and check wheter Game is ended
+    //Compose evert update together and check whether Game is ended
     void Game_update()
     {
         if(snake.border())
@@ -234,7 +226,7 @@ public:
 
 int main()
 {
-    Game game = Game(WIDTH, HEIGHT, SNAKE_START_ROW, SNAKE_START_COL, SNAKE_START_ORI);
+    Game game(WIDTH, HEIGHT, SNAKE_START_ROW, SNAKE_START_COL, SNAKE_START_ORI);
     game.Game_Setup(SNAKE_START_LENGTH, FOOD_NUM, OBS_NUM);
     game.Game_start();
     while(game.RUN)
