@@ -24,4 +24,4 @@ extern short pdc_curstoreal[16], pdc_curstoansi[16];
 extern short pdc_oldf, pdc_oldb, pdc_oldu;
 extern bool pdc_conemu, pdc_wt, pdc_ansi;
 
-extern void PDC_blink_text(void);
+extern void PDC_blink_text();

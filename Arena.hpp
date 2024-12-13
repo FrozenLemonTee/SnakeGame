@@ -6,7 +6,6 @@
 
 
 class Arena{
-private:
     int width;
     int height;
     //matrix stores the declaration value
@@ -29,10 +28,10 @@ public:
     //Function to copy a Node to another
     void copyNode(SnakeNode next);
     //Function that returns a new Node in different orientation
-    SnakeNode moveUp();
-    SnakeNode moveDown();
-    SnakeNode moveLeft();
-    SnakeNode moveRight();
+    SnakeNode moveUp() const;
+    SnakeNode moveDown() const;
+    SnakeNode moveLeft() const;
+    SnakeNode moveRight() const;
 };
 
 class Snake{
@@ -43,20 +42,20 @@ public:
     //Use double linked list to store the body of the Snake
     std::list<SnakeNode> body;
     //Function that returns the head node
-    SnakeNode head();
+    SnakeNode head() const;
     //Function that moves the snake
     bool update();
     //Function that increases the length of the snake
     void increase(int num);
     //Function that checks whether touching the border
-    bool border();
+    bool border() const;
     //Value that indicates how many length should our Snake increase
     int INCREASE;
     //Function that processes the Keyboard input
     void listen(char ch);
     void listen_All_Dir(char ch);
-    //Function taht returns the length of our Snake
-    int size();
+    //Function that returns the length of our Snake
+    int size() const;
 };
 
 

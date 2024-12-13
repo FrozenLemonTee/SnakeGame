@@ -5,16 +5,15 @@
 #include "Arena.hpp"
 
 class Draw{
-private:
     WINDOW *monitor;
 public:
-    void start();
+    static void start();
     void start_monitor();
-    void delay();
-    void end();
-    void Draw_Arena(Arena a);
-    void Draw_Snake(Snake s);
-    void Draw_Monitor(Snake s);
+    void delay() const;
+    void end() const;
+    static void Draw_Arena(Arena a);
+    static void Draw_Snake(const Snake& s);
+    void Draw_Monitor(const Snake& s) const;
 };
 
 

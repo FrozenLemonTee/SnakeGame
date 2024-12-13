@@ -9,17 +9,15 @@ int RANDOM::RAND(int min, int max)
     return dist(gen);
 }
 
-int RANDOM::ROW(int roffset, int coffset)
+int RANDOM::ROW(const int roffset, const int coffset)
 {
     return RAND(0 + roffset, HEIGHT + coffset);
 }
 
-int RANDOM::COL(int roffset, int coffset)
+int RANDOM::COL(const int roffset, const int coffset)
 {
     return RAND(0 + roffset, WIDTH + coffset);
 }
-
-
 
 
 int RANDOM(int min, int max)
