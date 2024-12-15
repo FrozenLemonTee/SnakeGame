@@ -1,8 +1,7 @@
-#include "Arena.hpp"
 #include "View.hpp"
 #include "data.hpp"
-#include <string>
 #include <clocale>
+#include <curses.h>
 #include <windows.h>
 #include <cwchar>
 

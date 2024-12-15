@@ -2,4 +2,4 @@
 .vscode
 cmake-build-debug
 CNAME
-CMakeLists.txt
+directory_structure.txt
