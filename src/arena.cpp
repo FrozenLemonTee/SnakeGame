@@ -1,5 +1,5 @@
+#include <Arena.hpp>
 #include <vector>
-#include "Arena.hpp"
 #include "curses.h"
 #include "data.hpp"
 

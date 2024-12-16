@@ -1,9 +1,9 @@
-#include "data.hpp"
+#include <data.hpp>
 #include <random>
 
 RANDOM::RANDOM(): gen(rd()){}
 
-int RANDOM::RAND(int min, int max)
+int RANDOM::RAND(const int min, const int max)
 {
     std::uniform_int_distribution<> dist(min, max);
     return dist(gen);
@@ -20,7 +20,7 @@ int RANDOM::COL(const int roffset, const int coffset)
 }
 
 
-int RANDOM(int min, int max)
+int RANDOM(const int min, const int max)
 {
     std::random_device RD;
     std::mt19937 gen(RD());
